@@ -74,3 +74,4 @@ window.onload = function() {
   startButton.addEventListener('click', startCountdown);
   pauseButton.addEventListener('click', pauseCountdown);
   resetButton.addEventListener('click', resetCountdown);
+};
