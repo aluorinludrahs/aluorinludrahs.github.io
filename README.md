@@ -1,77 +1,57 @@
-window.onload = function() {
-  // Get DOM elements
-  const minutesDisplay = document.getElementById('minutes');
-  const secondsDisplay = document.getElementById('seconds');
-  const intervalInput = document.getElementById('interval');
-  const startButton = document.getElementById('start');
-  const pauseButton = document.getElementById('pause');
-  const resetButton = document.getElementById('reset');
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Countdown Timer</title>
+</head>
+<body>
+	<h1>Countdown Timer</h1>
+	<div>
+		<label for="countdown-interval">Countdown Interval:</label>
+		<input type="number" id="countdown-interval" value="5"> seconds
+	</div>
+	<div>
+		<button onclick="startCountdown()">Start Countdown</button>
+		<button onclick="stopCountdown()">Stop Countdown</button>
+	</div>
+	<div id="countdown-timer"></div>
+	<audio id="alert-sound">
+		<source src="alert.mp3" type="audio/mpeg">
+		Your browser does not support the audio element.
+	</audio>
+	<script>
+		var countdownInterval;
+		var countdownTime;
+		var alertSound = document.getElementById("alert-sound");
 
-  // Declare variables
-  let intervalId;
-  let remainingTime;
-  let intervalDuration = 1000;
+		function startCountdown() {
+			var intervalInput = document.getElementById("countdown-interval");
+			countdownTime = intervalInput.value;
 
-  // Start the countdown
-  function startCountdown() {
-    intervalDuration = intervalInput.value * 1000;
-    intervalId = setInterval(updateCountdown, intervalDuration);
-    startButton.disabled = true;
-    pauseButton.disabled = false;
-  }
+			countdownInterval = setInterval(function() {
+				countdownTime--;
+				updateTimer();
 
-  // Pause the countdown
-  function pauseCountdown() {
-    clearInterval(intervalId);
-    startButton.disabled = false;
-    pauseButton.disabled = true;
-  }
+				if (countdownTime == 0) {
+					playAlertSound();
+					clearInterval(countdownInterval);
+				}
+			}, 1000);
+		}
 
-  // Reset the countdown
-  function resetCountdown() {
-    clearInterval(intervalId);
-    remainingTime = undefined;
-    minutesDisplay.innerText = '00';
-    secondsDisplay.innerText = '00';
-    startButton.disabled = false;
-    pauseButton.disabled = true;
-  }
+		function stopCountdown() {
+			clearInterval(countdownInterval);
+			countdownTime = 0;
+			updateTimer();
+		}
 
-  // Update the countdown timer
-  function updateCountdown() {
-    // Initialize remaining time on first update
-    if (remainingTime === undefined) {
-      remainingTime = intervalDuration;
-    } else {
-      remainingTime -= intervalDuration;
-    }
+		function updateTimer() {
+			var countdownTimer = document.getElementById("countdown-timer");
+			countdownTimer.innerHTML = countdownTime + " seconds";
+		}
 
-    // Calculate minutes and seconds
-    const minutes = Math.floor(remainingTime / 60000);
-    const seconds = Math.floor((remainingTime % 60000) / 1000);
-
-    // Display minutes and seconds with leading zeros
-    minutesDisplay.innerText = padNumberWithLeadingZeros(minutes, 2);
-    secondsDisplay.innerText = padNumberWithLeadingZeros(seconds, 2);
-
-    // Reset the countdown and display an alert when it reaches zero
-    if (remainingTime <= 0) {
-      resetCountdown();
-      alert('Countdown finished!');
-    }
-  }
-
-  // Pad a number with leading zeros to a specific length
-  function padNumberWithLeadingZeros(number, length) {
-    let result = number.toString();
-    while (result.length < length) {
-      result = '0' + result;
-    }
-    return result;
-  }
-
-  // Add event listeners to buttons
-  startButton.addEventListener('click', startCountdown);
-  pauseButton.addEventListener('click', pauseCountdown);
-  resetButton.addEventListener('click', resetCountdown);
-};
+		function playAlertSound() {
+			alertSound.play();
+		}
+	</script>
+</body>
+</html>
