@@ -1,57 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Countdown Timer</title>
-</head>
-<body>
-	<h1>Countdown Timer</h1>
-	<div>
-		<label for="countdown-interval">Countdown Interval:</label>
-		<input type="number" id="countdown-interval" value="5"> seconds
-	</div>
-	<div>
-		<button onclick="startCountdown()">Start Countdown</button>
-		<button onclick="stopCountdown()">Stop Countdown</button>
-	</div>
-	<div id="countdown-timer"></div>
-	<audio id="alert-sound">
-		<source src="alert.mp3" type="audio/mpeg">
-		Your browser does not support the audio element.
-	</audio>
-	<script>
-		var countdownInterval;
-		var countdownTime;
-		var alertSound = document.getElementById("alert-sound");
+const minutesDisplay = document.getElementById('minutes');
+const secondsDisplay = document.getElementById('seconds');
+const intervalInput = document.getElementById('interval');
+const startButton = document.getElementById('start');
+const pauseButton = document.getElementById('pause');
+const resetButton = document.getElementById('reset');
 
-		function startCountdown() {
-			var intervalInput = document.getElementById("countdown-interval");
-			countdownTime = intervalInput.value;
+let intervalId;
+let remainingTime;
+let intervalDuration = 1000;
 
-			countdownInterval = setInterval(function() {
-				countdownTime--;
-				updateTimer();
+function startCountdown() {
+  intervalDuration = intervalInput.value * 1000;
+  intervalId = setInterval(updateCountdown, intervalDuration);
+  startButton.disabled = true;
+  pauseButton.disabled = false;
+}
 
-				if (countdownTime == 0) {
-					playAlertSound();
-					clearInterval(countdownInterval);
-				}
-			}, 1000);
-		}
+function pauseCountdown() {
+  clearInterval(intervalId);
+  startButton.disabled = false;
+  pauseButton.disabled = true;
+}
 
-		function stopCountdown() {
-			clearInterval(countdownInterval);
-			countdownTime = 0;
-			updateTimer();
-		}
+function resetCountdown() {
+  clearInterval(intervalId);
+  remainingTime = undefined;
+  minutesDisplay.innerText = '00';
+  secondsDisplay.innerText = '00';
+  startButton.disabled = false;
+  pauseButton.disabled = true;
+}
 
-		function updateTimer() {
-			var countdownTimer = document.getElementById("countdown-timer");
-			countdownTimer.innerHTML = countdownTime + " seconds";
-		}
+function updateCountdown() {
+  if (remainingTime === undefined) {
+    remainingTime = intervalDuration;
+  } else {
+    remainingTime -= intervalDuration;
+  }
+  
+  const minutes = Math.floor(remainingTime / 60000);
+  const seconds = Math.floor((remainingTime % 60000) / 1000);
+  
+  minutesDisplay.innerText = padTime(minutes);
+  secondsDisplay.innerText = padTime(seconds);
+  
+  if (remainingTime <= 0) {
+    resetCountdown();
+    alert('Countdown finished!');
+  }
+}
 
-		function playAlertSound() {
-			alertSound.play();
-		}
-	</script>
-</body>
-</html>
+function padTime(time) {
+  return time < 10 ? `0${time
