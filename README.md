@@ -33,6 +33,7 @@ function resetCountdown() {
   minutesDisplay.innerText = '00';
   secondsDisplay.innerText = '00';
   startButton.disabled = false;
+}
   pauseButton.disabled = true;
 }
 
