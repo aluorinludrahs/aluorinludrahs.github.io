@@ -45,6 +45,10 @@
         let intervalDuration = 1000;
 
         function startCountdown() {
+          if (!validateInputs()) {
+            return;
+          }
+
           intervalDuration = intervalInput.value * 1000;
           let currentNumber = startInput.value;
           const endNumber = endInput.value;
@@ -88,8 +92,8 @@
         function validateInputs() {
           if (startInput.value >= endInput.value) {
             alert("Please enter a start number that is less than the end number.");
-            return false;
-           }
+    return false;
+  }
   if (intervalInput.value <= 0) {
     alert("Please enter a valid interval value.");
     return false;
@@ -124,3 +128,23 @@ function startCountdown() {
   pauseButton.disabled = false;
   resetButton.disabled = true;
 }
+
+function pauseCountdown() {
+  clearInterval(intervalId);
+  startButton.disabled = false;
+  pauseButton.disabled = true;
+  resetButton.disabled = false;
+}
+
+function resetCountdown() {
+  clearInterval(intervalId);
+  remainingTime = undefined;
+  countdownDisplay.innerText = '';
+  startButton.disabled = false;
+  pauseButton.disabled = true;
+  resetButton.disabled = true;
+}
+
+startButton.addEventListener('click', startCountdown);
+pauseButton.addEventListener('click', pauseCountdown);
+resetButton.addEventListener('click', resetCountdown);
