@@ -19,7 +19,7 @@
     <button id="resetButton" disabled>Reset</button>
     <br><br>
     <div id="countdown"></div>
-    <audio id="countdownSound" src="path/to/sound/file.mp3"></audio>
+    <audio id="countdownSound" src="C:\Users\shard\Downloads\FOR GITHUB\1.mp3"></audio>
     <script>
       window.onload = function() {
         const startButton = document.getElementById('startButton');
