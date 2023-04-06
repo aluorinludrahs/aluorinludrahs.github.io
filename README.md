@@ -19,6 +19,7 @@
     <button id="resetButton" disabled>Reset</button>
     <br><br>
     <div id="countdown"></div>
+    <audio id="countdownSound" src="path/to/sound/file.mp3"></audio>
     <script>
       window.onload = function() {
         const startButton = document.getElementById('startButton');
@@ -28,6 +29,7 @@
         const intervalInput = document.getElementById('interval');
         const startInput = document.getElementById('start');
         const endInput = document.getElementById('end');
+        const countdownSound = document.getElementById('countdownSound');
 
         let intervalId;
         let remainingTime;
@@ -46,6 +48,9 @@
               startButton.disabled = false;
               pauseButton.disabled = true;
               resetButton.disabled = false;
+            } else if (currentNumber % 1 === 0) {
+              countdownSound.currentTime = 0;
+              countdownSound.play();
             }
           }, intervalDuration);
           startButton.disabled = true;
