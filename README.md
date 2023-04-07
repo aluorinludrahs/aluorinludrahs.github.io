@@ -5,91 +5,70 @@
   </head>
   <body>
     <h1>Countdown Timer</h1>
-    <p>
-      Set the interval (in seconds) between each count:
-      <input type="number" id="interval" value="1" min="1" max="10" step="1">
-    </p>
-    <p>Time remaining: <span id="minutes">00</span>:<span id="seconds">00</span></p>
-    <p>
-      <button id="start">Start</button>
-      <button id="pause" disabled>Pause</button>
-      <button id="reset" disabled>Reset</button>
-    </p>
-
+    <label for="interval">Interval (in seconds):</label>
+    <input type="number" id="interval" min="1" value="1">
+    <br><br>
+    <label for="start">Start number:</label>
+    <input type="number" id="start" min="1" value="1">
+    <br><br>
+    <label for="end">End number:</label>
+    <input type="number" id="end" min="1" value="10">
+    <br><br>
+    <button id="startButton">Start</button>
+    <button id="pauseButton" disabled>Pause</button>
+    <button id="resetButton" disabled>Reset</button>
+    <br><br>
+    <div id="countdown"></div>
     <script>
       window.onload = function() {
-        // Get DOM elements
-        const minutesDisplay = document.getElementById('minutes');
-        const secondsDisplay = document.getElementById('seconds');
+        const startButton = document.getElementById('startButton');
+        const pauseButton = document.getElementById('pauseButton');
+        const resetButton = document.getElementById('resetButton');
+        const countdownDisplay = document.getElementById('countdown');
         const intervalInput = document.getElementById('interval');
-        const startButton = document.getElementById('start');
-        const pauseButton = document.getElementById('pause');
-        const resetButton = document.getElementById('reset');
+        const startInput = document.getElementById('start');
+        const endInput = document.getElementById('end');
 
-        // Declare variables
         let intervalId;
         let remainingTime;
         let intervalDuration = 1000;
 
-        // Start the countdown
         function startCountdown() {
           intervalDuration = intervalInput.value * 1000;
-          intervalId = setInterval(updateCountdown, intervalDuration);
+          let currentNumber = startInput.value;
+          const endNumber = endInput.value;
+          countdownDisplay.innerText = currentNumber;
+          intervalId = setInterval(function() {
+            currentNumber++;
+            countdownDisplay.innerText = currentNumber;
+            if (currentNumber >= endNumber) {
+              clearInterval(intervalId);
+              startButton.disabled = false;
+              pauseButton.disabled = true;
+              resetButton.disabled = false;
+            }
+          }, intervalDuration);
           startButton.disabled = true;
           pauseButton.disabled = false;
+          resetButton.disabled = true;
         }
 
-        // Pause the countdown
         function pauseCountdown() {
           clearInterval(intervalId);
           startButton.disabled = false;
           pauseButton.disabled = true;
+          resetButton.disabled = false;
         }
 
-        // Reset the countdown
         function resetCountdown() {
           clearInterval(intervalId);
           remainingTime = undefined;
-          minutesDisplay.innerText = '00';
-          secondsDisplay.innerText = '00';
+          countdownDisplay.innerText = '';
           startButton.disabled = false;
           pauseButton.disabled = true;
+          resetButton.disabled = true;
         }
 
-        // Update the countdown timer
-        function updateCountdown() {
-          // Initialize remaining time on first update
-          if (remainingTime === undefined) {
-            remainingTime = intervalDuration;
-          } else {
-            remainingTime -= intervalDuration;
-          }
-
-          // Calculate minutes and seconds
-          const minutes = Math.floor(remainingTime / 60000);
-          const seconds = Math.floor((remainingTime % 60000) / 1000);
-
-          // Display minutes and seconds with leading zeros
-          minutesDisplay.innerText = padNumberWithLeadingZeros(minutes, 2);
-          secondsDisplay.innerText = padNumberWithLeadingZeros(seconds, 2);
-
-          // Reset the countdown and display an alert when it reaches zero
-          if (remainingTime <= 0) {
-            resetCountdown();
-            alert('Countdown finished!');
-          }
-        }
-
-        // Pad a number with leading zeros to a specific length
-        function padNumberWithLeadingZeros(number, length) {
-          let result = number.toString();
-          while (result.length < length) {
-            result = '0' + result;
-          }
-          return result;
-        }
-
-        // Add event listeners to buttons
         startButton.addEventListener('click', startCountdown);
         pauseButton.addEventListener('click', pauseCountdown);
         resetButton.addEventListener('click', resetCountdown);
