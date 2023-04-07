@@ -16,6 +16,7 @@
     <br><br>
     <button id="startButton">Start</button>
     <button id="pauseButton" disabled>Pause</button>
+    <button id="playButton" disabled>Play</button>
     <button id="resetButton" disabled>Reset</button>
     <br><br>
     <div id="countdown"></div>
@@ -23,6 +24,7 @@
       window.onload = function() {
         const startButton = document.getElementById('startButton');
         const pauseButton = document.getElementById('pauseButton');
+        const playButton = document.getElementById('playButton');
         const resetButton = document.getElementById('resetButton');
         const countdownDisplay = document.getElementById('countdown');
         const intervalInput = document.getElementById('interval');
@@ -32,11 +34,11 @@
         let intervalId;
         let remainingTime;
         let intervalDuration = 1000;
-
+        let currentNumber = startInput.value;
+        let endNumber = endInput.value;
+        
         function startCountdown() {
           intervalDuration = intervalInput.value * 1000;
-          let currentNumber = startInput.value;
-          const endNumber = endInput.value;
           countdownDisplay.innerText = currentNumber;
           intervalId = setInterval(function() {
             currentNumber++;
@@ -45,34 +47,53 @@
               clearInterval(intervalId);
               startButton.disabled = false;
               pauseButton.disabled = true;
+              playButton.disabled = true;
               resetButton.disabled = false;
             }
           }, intervalDuration);
           startButton.disabled = true;
           pauseButton.disabled = false;
+          playButton.disabled = true;
           resetButton.disabled = true;
         }
 
         function pauseCountdown() {
           clearInterval(intervalId);
-          startButton.disabled = false;
+          remainingTime = endNumber - currentNumber;
+          startButton.disabled = true;
           pauseButton.disabled = true;
+          playButton.disabled = false;
           resetButton.disabled = false;
         }
 
-        function resetCountdown() {
-          clearInterval(intervalId);
-          remainingTime = undefined;
-          countdownDisplay.innerText = '';
-          startButton.disabled = false;
-          pauseButton.disabled = true;
+        function playCountdown() {
+          intervalDuration = intervalInput.value * 1000;
+          endNumber = currentNumber + remainingTime;
+          intervalId = setInterval(function() {
+            currentNumber++;
+            countdownDisplay.innerText = currentNumber;
+            if (currentNumber >= endNumber) {
+              clearInterval(intervalId);
+              startButton.disabled = false;
+              pauseButton.disabled = true;
+              playButton.disabled = true;
+              resetButton.disabled = false;
+            }
+          }, intervalDuration);
+          startButton.disabled = true;
+          pauseButton.disabled = false;
+          playButton.disabled = true;
           resetButton.disabled = true;
         }
 
-        startButton.addEventListener('click', startCountdown);
-        pauseButton.addEventListener('click', pauseCountdown);
-        resetButton.addEventListener('click', resetCountdown);
-      }
-    </script>
-  </body>
-</html>
+       function resetCountdown() {
+  clearInterval(intervalId);
+  remainingTime = undefined;
+  countdownDisplay.innerText = '';
+  startInput.disabled = false;
+  endInput.disabled = false;
+  startButton.disabled = false;
+  pauseButton.disabled = true;
+  resetButton.disabled = true;
+  countdownDisplay.innerText = startInput.value;
+}
