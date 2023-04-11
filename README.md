@@ -39,6 +39,9 @@
 	<button onclick="startCount()">Start</button>
 	<button onclick="pauseCount()">Pause</button>
 	<button onclick="resetCount()">Reset</button>
-	<button onclick="changeDelay()">Change Delay</button>
+	<div style="margin-top: 10px;">
+		<label for="delay-control">Time Delay Control (in milliseconds): </label>
+		<input type="range" id="delay-control" min="100" max="5000" step="100" value="1000" onchange="changeDelay()">
+	</div>
 </body>
 </html>
