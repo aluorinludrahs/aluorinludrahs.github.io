@@ -27,7 +27,7 @@
     </div>
     <div>
       <label for="debit">Debit</label>
-      <input type="radio" name="debit_credit" id="debit" value="debit">
+      <input type="radio" name="debit_credit" id="debit" value="debit" checked>
     </div>
     <div>
       <label for="credit">Credit</label>
