@@ -18,12 +18,20 @@
       <textarea name="narration" id="narration" rows="3" cols="50"></textarea>
     </div>
     <div>
+      <label for="account_name">Account Name</label>
+      <input type="text" name="account_name" id="account_name">
+    </div>
+    <div>
+      <label for="amount">Amount</label>
+      <input type="text" name="amount" id="amount">
+    </div>
+    <div>
       <label for="debit">Debit</label>
-      <input type="text" name="debit" id="debit">
+      <input type="radio" name="debit_credit" id="debit" value="debit">
     </div>
     <div>
       <label for="credit">Credit</label>
-      <input type="text" name="credit" id="credit">
+      <input type="radio" name="debit_credit" id="credit" value="credit">
     </div>
     <div>
       <input type="submit" value="Submit">
