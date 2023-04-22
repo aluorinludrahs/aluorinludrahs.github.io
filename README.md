@@ -1,47 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Counting Numbers</title>
-	<script type="text/javascript">
-		var count = 0;
-		var delay = 1000;
-		var timer = null;
-
-		function startCount() {
-			timer = setInterval(function() {
-				document.getElementById("count").innerHTML = count++;
-			}, delay);
-		}
-
-		function pauseCount() {
-			clearInterval(timer);
-			timer = null;
-		}
-
-		function resetCount() {
-			count = 0;
-			document.getElementById("count").innerHTML = count;
-			pauseCount();
-		}
-
-		function changeDelay() {
-			delay = document.getElementById("delay").value;
-			pauseCount();
-			startCount();
-		}
-	</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accounting Software</title>
 </head>
 <body>
-	<h1>Counting Numbers</h1>
-	<p>Number: <span id="count">0</span></p>
-	<label for="delay">Delay (in milliseconds): </label>
-	<input type="number" id="delay" value="1000">
-	<button onclick="startCount()">Start</button>
-	<button onclick="pauseCount()">Pause</button>
-	<button onclick="resetCount()">Reset</button>
-	<div style="margin-top: 10px;">
-		<label for="delay-control">Time Delay Control (in milliseconds): </label>
-		<input type="range" id="delay-control" min="100" max="5000" step="100" value="1000" onchange="changeDelay()">
-	</div>
+  <h1>Accounting Software</h1>
+  <h2>Journal Entry</h2>
+  <form action="journal_entry.php" method="post">
+    <div>
+      <label for="date">Date</label>
+      <input type="date" name="date" id="date">
+    </div>
+    <div>
+      <label for="narration">Narration</label>
+      <textarea name="narration" id="narration" rows="3" cols="50"></textarea>
+    </div>
+    <div>
+      <label for="debit">Debit</label>
+      <input type="text" name="debit" id="debit">
+    </div>
+    <div>
+      <label for="credit">Credit</label>
+      <input type="text" name="credit" id="credit">
+    </div>
+    <div>
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+  <h2>Ledger</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Account Name</th>
+        <th>Debit</th>
+        <th>Credit</th>
+        <th>Balance</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <h2>Trial Balance</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Account Name</th>
+        <th>Debit</th>
+        <th>Credit</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <h2>Profit and Loss Account</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Account Name</th>
+        <th>Debit</th>
+        <th>Credit</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <h2>Trading Account</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Account Name</th>
+        <th>Debit</th>
+        <th>Credit</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <h2>Balance Sheet</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Account Name</th>
+        <th>Debit</th>
+        <th>Credit</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <h2>Cash Flow Statement</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Account Name</th>
+        <th>Debit</th>
+        <th>Credit</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
 </body>
 </html>
