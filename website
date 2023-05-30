@@ -19,15 +19,21 @@
     function getGitHubRepoInfo() {
       const repoName = document.getElementById("repo_name").value;
 
-      fetch("https://api.github.com/repos/" + repoName + "/" + repoName)
-        .then(response => response.json())
-        .then(repoInfo => {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "https://api.github.com/repos/" + repoName + "/" + repoName);
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          var repoInfo = JSON.parse(xhr.responseText);
           document.getElementById("repo_info").innerHTML = `
             Name: ${repoInfo.name}
             Description: ${repoInfo.description}
             Number of stars: ${repoInfo.stargazers_count}
           `;
-        });
+        } else {
+          console.log("Error getting GitHub repository info: " + xhr.status);
+        }
+      };
+      xhr.send();
     }
   </script>
 </body>
