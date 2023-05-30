@@ -1,0 +1,25 @@
+from flask import Flask, render_template, request
+import requests
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+  return render_template("index.html")
+
+@app.route("/generate_song", methods=["POST"])
+def generate_song():
+  name = request.form["name"]
+
+  # Get the lyrics for the Happy Birthday song from Google Search.
+  response = requests.get("https://www.google.com/search?q=happy+birthday+lyrics")
+  lyrics = response.text.split("]")[1].split("]")[0].strip()
+
+  # Replace the words "Happy Birthday" with the name of the person whose birthday it is.
+  lyrics = lyrics.replace("Happy Birthday", name)
+
+  # Return the lyrics as a JSON object.
+  return jsonify({"lyrics": lyrics})
+
+if __name__ == "__main__":
+  app.run(debug=True)
