@@ -10,20 +10,24 @@
       border: 1px solid black;
       position: relative;
       overflow: hidden;
+      background-image: url('background.jpg'); /* Replace 'background.jpg' with your background image */
+      background-size: cover;
     }
 
     .bike {
-      width: 50px;
-      height: 30px;
-      background-color: red;
+      width: 100px;
+      height: 50px;
+      background-image: url('bike.png'); /* Replace 'bike.png' with your bike image */
       position: absolute;
+      background-size: cover;
     }
 
     .obstacle {
-      width: 30px;
-      height: 30px;
-      background-color: black;
+      width: 60px;
+      height: 60px;
+      background-image: url('obstacle.png'); /* Replace 'obstacle.png' with your obstacle image */
       position: absolute;
+      background-size: cover;
     }
 
     #score {
@@ -46,7 +50,6 @@
       var gameContainer = document.getElementById("game-container");
       var scoreElement = document.getElementById("score");
 
-      var bikeX = 0;
       var bikeY = 200;
       var score = 0;
       var obstacleInterval;
@@ -58,15 +61,10 @@
           bikeY -= 10;
         } else if (event.key === "ArrowDown") {
           bikeY += 10;
-        } else if (event.key === "ArrowLeft") {
-          bikeX -= 10;
-        } else if (event.key === "ArrowRight") {
-          bikeX += 10;
         }
 
         // Update bike position
         bike.style.top = bikeY + "px";
-        bike.style.left = bikeX + "px";
 
         // Check collision with obstacles
         var obstacles = document.getElementsByClassName("obstacle");
